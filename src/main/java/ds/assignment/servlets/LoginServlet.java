@@ -19,6 +19,20 @@ import ds.assignment.model.User;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = -5559983905373073184L;
 	
+	private static final String HTML_HEADER = "<!DOCTYPE html>"
+			+ "<html>"
+			+ "<head>"
+			+ "<title>Airport</title>"
+			+ "<link rel='stylesheet' href='bootstrap/css/bootstrap.min.css'>"
+			+ "</head>"
+			+ "<body>"
+			+ "<div class='container'>";
+	
+	private static final String HTML_END = "</div>"
+			+ "<script src='bootstrap/js/bootstrap.min.js' type='text/javascript'></script>"
+			+ "</body>"
+			+ "</html>";
+	
 	private UserDao userDao;
 	
 	public LoginServlet(){
@@ -29,18 +43,16 @@ public class LoginServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		
-		System.out.println("username = " + username + ", password = " + password);
 		User loggedUser = userDao.findByUsernameAndPassword(username, password);
 		
-		PrintWriter out = response.getWriter();
+		//PrintWriter out = response.getWriter();
 		
 		if(loggedUser != null){
 			Role role = loggedUser.getRole();
-			
-			out.println("<p>" + role.name() + "</p>");
+			response.sendRedirect("http://localhost:8181/Airport/flight");
 		}
 		else{
-			out.println("<p>Username or password are invalid</p>");
+			response.sendRedirect("error_login.html");
 		}
 	}
 }

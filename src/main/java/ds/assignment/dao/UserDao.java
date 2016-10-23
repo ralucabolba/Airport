@@ -7,14 +7,12 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import ds.assignment.model.User;
 
 public class UserDao{
 
-	private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
+	//private static final Logger logger = LoggerFactory.getLogger(UserDao.class);
 
 	private SessionFactory sessionFactory;
 
@@ -66,7 +64,21 @@ public class UserDao{
 	}
 
 	public void delete(User user) {
+		Session session = sessionFactory.openSession();
+		Transaction tx = null;
 
+		try {
+			tx = session.beginTransaction();
+			session.delete(user);
+			tx.commit();
+		} catch (HibernateException e) {
+			if (tx != null) {
+				tx.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
