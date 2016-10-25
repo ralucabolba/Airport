@@ -3,6 +3,7 @@ package ds.assignment.dao;
 import java.util.List;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -98,5 +99,31 @@ public class FlightDao {
 		} finally {
 			session.close();
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public Flight findById(Long id){
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		
+		List<Flight> flights = null;
+		
+		try{
+			transaction=session.beginTransaction();
+			Query query = session.createQuery("FROM Flight WHERE id = :id");
+			query.setParameter("id", id);
+			
+			flights = query.list();
+			transaction.commit();
+		}catch (HibernateException e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			System.out.println(e.getMessage());
+		} finally {
+			session.close();
+		}
+		
+		return flights != null && !flights.isEmpty() ? flights.get(0) : null;
 	}
 }

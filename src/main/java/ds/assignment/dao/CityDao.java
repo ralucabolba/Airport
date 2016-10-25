@@ -42,4 +42,53 @@ public class CityDao {
 		
 		return cities != null && !cities.isEmpty() ? cities.get(0) : null;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public City findByName(String name){
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		
+		List<City> cities = null;
+		
+		try{
+			transaction=session.beginTransaction();
+			Query query = session.createQuery("FROM City WHERE name = :name");
+			query.setParameter("name", name);
+			
+			cities = query.list();
+			transaction.commit();
+		}catch (HibernateException e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			System.out.println(e.getMessage());
+		} finally {
+			session.close();
+		}
+		
+		return cities != null && !cities.isEmpty() ? cities.get(0) : null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<City> findAll() {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+
+		List<City> cities = null;
+
+		try {
+			transaction = session.beginTransaction();
+			cities = session.createQuery("FROM City").list();
+			transaction.commit();
+		} catch (HibernateException e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			System.out.println(e.getMessage());
+		} finally {
+			session.close();
+		}
+
+		return cities;
+	}
 }

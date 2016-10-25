@@ -1,0 +1,60 @@
+drop database if exists airport;
+create database airport;
+use airport;
+
+
+create table users (
+	id bigint(50) not null auto_increment,
+	first_name varchar(100) not null,
+	last_name varchar(100) not null,
+	username varchar(100) not null,
+	password varchar(100) not null,
+	role_id bigint(50) not null,
+
+	primary key(id)
+);
+
+create table airplane_types (
+	id bigint(50) not null auto_increment,
+	type varchar(100) not null,
+
+	primary key(id)
+);
+
+create table cities (
+	id bigint(50) not null auto_increment,
+	name varchar(100) not null,
+	longitude double not null,
+	latitude double not null,
+
+	primary key(id)
+);
+
+create table flights (
+	id bigint(50) not null auto_increment,
+	flight_number bigint(50) not null,
+	departure_time timestamp not null,
+	arrival_time timestamp not null,
+	
+	airplane_type_id bigint(50) not null,
+	departure_city_id bigint(50) not null,
+	arrival_city_id bigint(50) not null,
+
+	primary key(id),
+	foreign key(airplane_type_id) references airplane_types(id) on update cascade on delete cascade,
+	foreign key(departure_city_id) references cities(id) on update cascade on delete cascade,
+	foreign key(arrival_city_id) references cities(id) on update cascade on delete cascade
+);
+
+insert into users(first_name, last_name, username, password, role_id) values
+	('raluca', 'bolba', 'raluca', 'raluca', 1),
+	('admin', 'admin', 'admin', 'admin', 0);
+
+insert into airplane_types(type) values ('Boeing 757');
+
+insert into cities(name, longitude, latitude) values 
+	('London', 51.507351, -0.127758),
+	('Bucharest', 44.426767, 26.102538);
+
+insert into flights (flight_number, airplane_type_id, departure_city_id, arrival_city_id, departure_time, arrival_time) values 
+	(1234, 1, 1, 2, '2017-01-01 00:00:00', '2017-01-01 00:00:00');

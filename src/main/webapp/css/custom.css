@@ -1,0 +1,16 @@
+html, body{
+	width:100%
+}
+
+.login-container{
+	text-align:center;
+	padding: 20px
+}
+
+p{
+	text-align:center;
+}
+
+label{
+	text-align:left
+}

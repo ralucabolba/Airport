@@ -5,9 +5,84 @@
 <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-	<div class="container">
-		<h1>Available flights</h1>
+	<nav class="navbar navbar-dark bg-inverse navbar-full">
+		<div class="container">
+			<button class="navbar-toggler hidden-sm-up" type="button"
+				data-toggle="collapse" data-target="#menu" aria-controls="menu"
+				aria-expanded="false" aria-label="Toggle navigation">&#9776;</button>
+			<div class="collapse navbar-toggleable-xs" id="menu">
+				<ul id="menu-list" class="nav navbar-nav" style="padding-top: 8px">
+					<li class="nav-item active"><a class="nav-link" href="#">Home
+							<span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Add
+							flight</a></li>
+					<li class="nav-item"><a class="nav-link" href="#">Register</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<!-- Update dialog -->
+	<div class="modal fade" id="update-dialog" tabindex="-1" role="dialog"
+		aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Update flight</h4>
+				</div>
+				<div class="modal-body" style="padding: 50px">
+					<form id="update-form" class="form-horizontal" action="flight"
+						method="post">
+						<fieldset>
+							<input type="hidden" id="id_flight" name="id">
+
+							<div class="form-group">
+								<label for="nameInput">Flight number</label> <input type="text"
+									id="flight_number" class="form-control" name="flight_number"
+									required>
+							</div>
+
+							<div class="form-group">
+								<label for="priceInput">Price</label> <input type="number"
+									step="0.01" min="0" id="priceInput" class="form-control"
+									name="price" required>
+							</div>
+
+							<div class="form-group">
+								<label for="quantityInput">Quantity</label> <input type="number"
+									min="0" id="quantityInput" class="form-control" name="quantity"
+									required>
+							</div>
+
+							<input type="hidden" id="userIdInput" name="userId">
+
+							<button type="submit" id="update-save"
+								class="btn btn-success update-save" style="text-align: center">Save
+								changes</button>
+
+							<button id="update-close" type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+
+						</fieldset>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
-	<script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+
+	<!-- JQuery -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+	<!-- Javascript -->
+	<script
+		src="https://www.atlasestateagents.co.uk/javascript/tether.min.js"></script>
+
+	<!-- <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script> -->
 </body>
 </html>
