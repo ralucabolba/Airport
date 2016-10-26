@@ -20,9 +20,9 @@ import ds.assignment.model.City;
 import ds.assignment.model.Flight;
 import ds.assignment.view.FlightRenderer;
 
-@WebServlet("/flight/update")
-public class UpdateFlightServlet extends HttpServlet {
-	private static final long serialVersionUID = 3095550026613509572L;
+@WebServlet("/flight/add")
+public class AddFlightServlet extends HttpServlet {
+	private static final long serialVersionUID = 1020775228663825090L;
 
 	private static final String URL = "http://localhost:8181/Airport";
 
@@ -32,23 +32,19 @@ public class UpdateFlightServlet extends HttpServlet {
 
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-	public UpdateFlightServlet() {
+	public AddFlightServlet() {
 		flightDao = new FlightDao(new Configuration().configure().buildSessionFactory());
 		cityDao = new CityDao(new Configuration().configure().buildSessionFactory());
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Long id = Long.valueOf(request.getParameter("id"));
-
-		Flight flight = flightDao.findById(id);
 		List<City> cities = cityDao.findAll();
 
 		PrintWriter out = response.getWriter();
-		out.println(FlightRenderer.renderUpdateFlight(flight, cities));
+		out.println(FlightRenderer.renderAddFlight(cities));
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		Long id = Long.valueOf(request.getParameter("id"));
 		Long flightNumber = Long.valueOf(request.getParameter("flight_number"));
 		String airplaneType = request.getParameter("airplane_type");
 
@@ -70,7 +66,7 @@ public class UpdateFlightServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		Flight flight = flightDao.findById(id);
+		Flight flight = new Flight();
 		flight.setFlightNumber(flightNumber);
 		flight.setAirplaneType(airplaneType);
 		flight.setDepartureCity(departureCity);
@@ -78,7 +74,7 @@ public class UpdateFlightServlet extends HttpServlet {
 		flight.setArrivalCity(arrivalCity);
 		flight.setArrivalTime(arrivalTime);
 
-		flightDao.update(flight);
+		flightDao.save(flight);
 
 		response.sendRedirect(URL + "/flight");
 	}

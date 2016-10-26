@@ -25,9 +25,8 @@ public class Flight implements Serializable {
 	@Column(name = "flight_number")
 	private Long flightNumber;
 
-	@ManyToOne
-	@JoinColumn(name = "airplane_type_id")
-	private AirplaneType airplaneType;
+	@Column(name = "airplane_type")
+	private String airplaneType;
 
 	@ManyToOne
 	@JoinColumn(name = "departure_city_id")
@@ -61,11 +60,11 @@ public class Flight implements Serializable {
 		this.flightNumber = flightNumber;
 	}
 
-	public AirplaneType getAirplaneType() {
+	public String getAirplaneType() {
 		return airplaneType;
 	}
 
-	public void setAirplaneType(AirplaneType airplaneType) {
+	public void setAirplaneType(String airplaneType) {
 		this.airplaneType = airplaneType;
 	}
 

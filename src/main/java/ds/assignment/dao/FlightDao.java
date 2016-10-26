@@ -32,7 +32,7 @@ public class FlightDao {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			session.close();
 		}
@@ -56,7 +56,7 @@ public class FlightDao {
 				tx.rollback();
 			}
 
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			session.close();
 		}
@@ -75,7 +75,7 @@ public class FlightDao {
 			if (tx != null) {
 				tx.rollback();
 			}
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			session.close();
 		}
@@ -119,7 +119,7 @@ public class FlightDao {
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			session.close();
 		}
