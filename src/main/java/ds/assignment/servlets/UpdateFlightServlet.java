@@ -20,7 +20,7 @@ import ds.assignment.model.City;
 import ds.assignment.model.Flight;
 import ds.assignment.view.FlightRenderer;
 
-@WebServlet("/flight/update")
+@WebServlet("/admin/flight/update")
 public class UpdateFlightServlet extends HttpServlet {
 	private static final long serialVersionUID = 3095550026613509572L;
 
@@ -30,7 +30,7 @@ public class UpdateFlightServlet extends HttpServlet {
 
 	private CityDao cityDao;
 
-	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
 	public UpdateFlightServlet() {
 		flightDao = new FlightDao(new Configuration().configure().buildSessionFactory());
@@ -80,6 +80,6 @@ public class UpdateFlightServlet extends HttpServlet {
 
 		flightDao.update(flight);
 
-		response.sendRedirect(URL + "/flight");
+		response.sendRedirect(URL + "/admin/flight");
 	}
 }

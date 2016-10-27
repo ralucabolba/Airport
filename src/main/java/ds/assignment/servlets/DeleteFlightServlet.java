@@ -12,7 +12,7 @@ import org.hibernate.cfg.Configuration;
 import ds.assignment.dao.FlightDao;
 import ds.assignment.model.Flight;
 
-@WebServlet("/flight/delete")
+@WebServlet("/admin/flight/delete")
 public class DeleteFlightServlet extends HttpServlet {
 	private static final long serialVersionUID = -4329773332913992336L;
 
@@ -30,6 +30,6 @@ public class DeleteFlightServlet extends HttpServlet {
 
 		flightDao.delete(flight);
 
-		response.sendRedirect(URL + "/flight");
+		response.sendRedirect(URL + "/admin/flight");
 	}
 }

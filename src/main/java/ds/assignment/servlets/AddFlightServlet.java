@@ -20,7 +20,7 @@ import ds.assignment.model.City;
 import ds.assignment.model.Flight;
 import ds.assignment.view.FlightRenderer;
 
-@WebServlet("/flight/add")
+@WebServlet("/admin/flight/add")
 public class AddFlightServlet extends HttpServlet {
 	private static final long serialVersionUID = 1020775228663825090L;
 
@@ -76,6 +76,6 @@ public class AddFlightServlet extends HttpServlet {
 
 		flightDao.save(flight);
 
-		response.sendRedirect(URL + "/flight");
+		response.sendRedirect(URL + "/admin/flight");
 	}
 }
