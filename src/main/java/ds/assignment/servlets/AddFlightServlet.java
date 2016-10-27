@@ -30,7 +30,7 @@ public class AddFlightServlet extends HttpServlet {
 
 	private CityDao cityDao;
 
-	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 
 	public AddFlightServlet() {
 		flightDao = new FlightDao(new Configuration().configure().buildSessionFactory());
