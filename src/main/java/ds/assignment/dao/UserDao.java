@@ -118,7 +118,6 @@ public class UserDao{
 			query.setParameter("password", password);
 			
 			users = query.list();
-			System.out.println(users.toString());
 			transaction.commit();
 		}catch (HibernateException e) {
 			if (transaction != null) {
