@@ -9,17 +9,27 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import org.hibernate.cfg.Configuration;
+
+import ds.assignment.dao.UserDao;
 import ds.assignment.model.Role;
 import ds.assignment.model.User;
+import ds.assignment.utils.CookieUtils;
 
 @WebFilter("/admin/*")
-public class AdminFilter implements Filter{
+public class AdminFilter implements Filter {
 
-	private static final String URL = "http://localhost:8181/Airport";
+	private static final String URL = "http://localhost:8585/Airport";
+
+	private UserDao userDao;
+
+	public AdminFilter() {
+		userDao = new UserDao(new Configuration().configure().buildSessionFactory());
+	}
 
 	@Override
 	public void destroy() {
@@ -29,20 +39,31 @@ public class AdminFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		
+
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
-		HttpSession session = req.getSession();
-		
-		User loggedUser = (User) session.getAttribute("user");
-		
-		if(loggedUser == null || !loggedUser.getRole().equals(Role.ADMIN)){
-			res.sendRedirect(URL + "/login");
+		/*
+		 * HttpSession session = req.getSession();
+		 * 
+		 * User loggedUser = (User) session.getAttribute("user");
+		 */
+
+		Cookie loginCookie = CookieUtils.findCookie(req.getCookies(), "userId");
+
+		if (loginCookie != null) {
+			Long userId = Long.valueOf(loginCookie.getValue());
+
+			User loggedUser = userDao.findById(userId);
+			if (loggedUser == null || !loggedUser.getRole().equals(Role.ADMIN)) {
+				res.sendRedirect(URL + "/login");
+			} else {
+				chain.doFilter(request, response);
+			}
 		}
 		else{
-			chain.doFilter(request, response);
+			res.sendRedirect(URL + "/login");
 		}
-		
+
 	}
 
 	@Override

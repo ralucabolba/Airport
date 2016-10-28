@@ -16,7 +16,7 @@ import ds.assignment.model.Flight;
 public class DeleteFlightServlet extends HttpServlet {
 	private static final long serialVersionUID = -4329773332913992336L;
 
-	private static final String URL = "http://localhost:8181/Airport";
+	private static final String URL = "http://localhost:8585/Airport";
 
 	private FlightDao flightDao;
 

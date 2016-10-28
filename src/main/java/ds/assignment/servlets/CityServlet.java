@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,14 +24,6 @@ import org.jdom2.input.SAXBuilder;
 public class CityServlet extends HttpServlet {
 	private static final long serialVersionUID = 1213292608219915606L;
 
-	private static final String HTML_HEADER = "<!DOCTYPE html>" + "<html>" + "<head>" + "<title>Airport</title>"
-			+ "<link rel='stylesheet' href='bootstrap/css/bootstrap.min.css'>" + "</head>" + "<body>"
-			+ "<div class='container'>";
-
-	private static final String HTML_END = "</div>"
-			+ "<script src='bootstrap/js/bootstrap.min.js' type='text/javascript'></script>" + "</body>" + "</html>";
-
-	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		response.setContentType("text/html");
 
@@ -38,11 +31,13 @@ public class CityServlet extends HttpServlet {
 		Double longitude = Double.valueOf(request.getParameter("longitude"));
 
 		PrintWriter out = response.getWriter();
-		String localtime = findLocalTime("http://new.earthtools.org/timezone/" + latitude + "/" + longitude); 
-		
-		out.println(HTML_HEADER);
-		out.println("<p class='alert alert-success'>" + localtime + "</p>");
-		out.println(HTML_END);
+		String localtime = findLocalTime("http://new.earthtools.org/timezone/" + latitude + "/" + longitude);
+
+		RequestDispatcher rd = request.getRequestDispatcher("/admin/flight");
+		rd.include(request, response);
+
+		out.println("<div class='container'><p class='alert alert-info'><strong>Local time is : </strong>" + localtime
+				+ "</p></div>");
 	}
 
 	private String findLocalTime(String myUrl) {

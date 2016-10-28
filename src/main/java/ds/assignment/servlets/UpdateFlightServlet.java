@@ -24,7 +24,7 @@ import ds.assignment.view.FlightRenderer;
 public class UpdateFlightServlet extends HttpServlet {
 	private static final long serialVersionUID = 3095550026613509572L;
 
-	private static final String URL = "http://localhost:8181/Airport";
+	private static final String URL = "http://localhost:8585/Airport";
 
 	private FlightDao flightDao;
 

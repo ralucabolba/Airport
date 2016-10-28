@@ -14,3 +14,11 @@ p{
 label{
 	text-align:left
 }
+
+.flight-form{
+	margin-top: 20px;
+    padding: 20px;
+    width: 50%;
+    background-color: whitesmoke;
+    border-radius: 5px;
+}

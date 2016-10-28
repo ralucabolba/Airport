@@ -6,10 +6,10 @@ import java.rmi.ServerException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.hibernate.cfg.Configuration;
 
@@ -22,17 +22,15 @@ import ds.assignment.view.LoginRenderer;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = -5559983905373073184L;
 
-	private static final String URL = "http://localhost:8181/Airport";
-
 	private UserDao userDao;
 
 	public LoginServlet() {
 		userDao = new UserDao(new Configuration().configure().buildSessionFactory());
 	}
-	
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.setContentType("text/html");
-		
+
 		PrintWriter out = response.getWriter();
 		out.append(LoginRenderer.renderLogin(null));
 	}
@@ -40,9 +38,9 @@ public class LoginServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServerException, IOException, ServletException {
 		response.setContentType("text/html");
-		
-		HttpSession session = request.getSession();
-		
+
+		// HttpSession session = request.getSession();
+
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 
@@ -50,17 +48,20 @@ public class LoginServlet extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 
-		if(loggedUser == null){
-			String message ="<p class='alert alert-danger'>The username or password is incorrect. Please try again.</p>"; 
+		if (loggedUser == null) {
+			String message = "<div class='container'><p class='alert alert-danger'>The username or password is incorrect. Please try again.</p></div>";
 			out.println(LoginRenderer.renderLogin(message));
-		}
-		else{
-			session.setAttribute("user", loggedUser);
-			if(loggedUser.getRole().equals(Role.ADMIN)){
+		} else {
+			// session.setAttribute("user", loggedUser);
+			Cookie cookie = new Cookie("userId", loggedUser.getId().toString());
+			// set cookie to expire after 60 minutes
+			cookie.setMaxAge(60 * 60);
+			response.addCookie(cookie);
+
+			if (loggedUser.getRole().equals(Role.ADMIN)) {
 				response.sendRedirect("admin/flight");
-				
-			}
-			else if(loggedUser.getRole().equals(Role.USER)){
+
+			} else if (loggedUser.getRole().equals(Role.USER)) {
 				response.sendRedirect("user/flight");
 			}
 		}

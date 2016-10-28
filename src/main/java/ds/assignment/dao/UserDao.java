@@ -130,5 +130,31 @@ public class UserDao{
 		
 		return users != null && !users.isEmpty() ? users.get(0) : null;
 	}
+	
+	@SuppressWarnings("unchecked")
+	public User findById(Long id){
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		
+		List<User> users = null;
+		
+		try{
+			transaction=session.beginTransaction();
+			Query query = session.createQuery("FROM User WHERE id = :id");
+			query.setParameter("id", id);
+			
+			users = query.list();
+			transaction.commit();
+		}catch (HibernateException e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return users != null && !users.isEmpty() ? users.get(0) : null;
+	}
 
 }

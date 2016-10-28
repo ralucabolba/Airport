@@ -27,6 +27,5 @@
 		<mapping class="ds.assignment.model.User" />
 		<mapping class="ds.assignment.model.City" />
 		<mapping class="ds.assignment.model.Flight" />
-		<mapping class="ds.assignment.model.AirplaneType" />
 	</session-factory>
 </hibernate-configuration>
