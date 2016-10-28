@@ -16,8 +16,8 @@ import javax.servlet.http.HttpSession;
 import ds.assignment.model.Role;
 import ds.assignment.model.User;
 
-@WebFilter("/admin/*")
-public class AdminFilter implements Filter{
+@WebFilter("/user/*")
+public class UserFilter implements Filter{
 
 	private static final String URL = "http://localhost:8181/Airport";
 
@@ -29,20 +29,18 @@ public class AdminFilter implements Filter{
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		HttpSession session = req.getSession();
 		
 		User loggedUser = (User) session.getAttribute("user");
 		
-		if(loggedUser == null || !loggedUser.getRole().equals(Role.ADMIN)){
+		if(loggedUser == null || !loggedUser.getRole().equals(Role.USER)){
 			res.sendRedirect(URL + "/login");
 		}
 		else{
 			chain.doFilter(request, response);
 		}
-		
 	}
 
 	@Override

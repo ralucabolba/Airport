@@ -18,7 +18,7 @@ import ds.assignment.model.Role;
 import ds.assignment.model.User;
 import ds.assignment.view.LoginRenderer;
 
-@WebServlet(urlPatterns = {"/*", "/login"})
+@WebServlet("/login")
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = -5559983905373073184L;
 
